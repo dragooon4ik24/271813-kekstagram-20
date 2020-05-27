@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм» [![Build status][travis-image]][travis-url]
 
-* Студент: [Anton Shafner](https://up.htmlacademy.ru/javascript/20/user/271813).
-* Наставник: `Неизвестно`.
+- Студент: [Anton Shafner](https://up.htmlacademy.ru/javascript/20/user/271813).
+- Наставник: [Anton Shafner](https://up.htmlacademy.ru/javascript/20/user/271813).
 
 ---
 
