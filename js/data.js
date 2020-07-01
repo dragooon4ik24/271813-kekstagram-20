@@ -75,5 +75,7 @@ window.data = (function () {
     return comments;
   }
 
-  return createArrPhotos;
+  return {
+    generatePhotos: createArrPhotos
+  };
 })();

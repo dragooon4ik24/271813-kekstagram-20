@@ -2,7 +2,7 @@
 
 (function () {
   var COUNT_PHOTOS = 25;
-  var photos = window.data(COUNT_PHOTOS);
+  var photos = window.data.generatePhotos(COUNT_PHOTOS);
   var pictures = document.querySelector('.pictures');
   var templatePicture = document.querySelector('#picture').content.querySelector('.picture');
   var documentFragment = document.createDocumentFragment();
@@ -26,22 +26,24 @@
   renderPhotos();
 
   pictures.addEventListener('click', function (evt) {
-    var target = evt.target;
-    determinePhoto(target);
+    determinePhoto(evt);
   });
 
   pictures.addEventListener('keydown', function (evt) {
-    if (evt.key === window.constants.KEY_NAME_ENTER) {
-      var target = evt.target.firstElementChild;
-      determinePhoto(target);
-    }
+    window.utils.isEscEvent(evt, function () {
+      determinePhoto(evt);
+    });
   });
 
-  function determinePhoto(target) {
+  function determinePhoto(evt) {
+    var target = evt.target;
+    if (target.classList.contains('picture')) {
+      target = evt.target.firstElementChild;
+    }
     if (target.classList.contains('picture__img')) {
       for (var i = 0; i < photos.length; i++) {
         if (target.getAttribute('src') === photos[i].url) {
-          showBigPicture(photos[i]);
+          window.preview.showPreview(photos[i]);
           break;
         }
       }
