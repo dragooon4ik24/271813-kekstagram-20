@@ -32,6 +32,7 @@ window.form = (function () {
     document.body.classList.remove('modal-open');
     document.removeEventListener('keydown', uploadOverlayEscPressHandler);
     uploadFile.value = '';
+    resetEffect();
   }
 
   function openUploadOverlay() {
@@ -129,4 +130,21 @@ window.form = (function () {
 
   addHandlingTextField(textHashtags);
   addHandlingTextField(textDescription);
+
+  var listEffects = uploadForm.querySelector('.effects__list');
+  var defaulfEffect = uploadOverlay.querySelector('.effects__radio');
+
+  listEffects.addEventListener('click', function (evt) {
+    var target = evt.target;
+    if (target.classList.contains('effects__radio')) {
+      uploadPreview.classList = '';
+      uploadPreview.classList.add('effects__preview--' + target.value);
+    }
+  });
+
+  function resetEffect() {
+    uploadPreview.classList = '';
+    defaulfEffect.checked = true;
+    changeValueScale(MAX_VALUE_SCALE);
+  }
 })();
