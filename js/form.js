@@ -1,6 +1,14 @@
 'use strict';
 
-window.form = (function () {
+(function () {
+  var EFFECTS = {
+    NONE: 'none',
+    CHROME: 'chrome',
+    SEPIA: 'sepia',
+    MARVIN: 'marvin',
+    PHOBOS: 'phobos',
+    HEAT: 'heat',
+  };
   var STEP_SCALE = 25;
   var MIN_VALUE_SCALE = 25;
   var MAX_VALUE_SCALE = 100;
@@ -31,14 +39,17 @@ window.form = (function () {
     uploadOverlay.classList.add('hidden');
     document.body.classList.remove('modal-open');
     document.removeEventListener('keydown', uploadOverlayEscPressHandler);
-    uploadFile.value = '';
-    resetEffect();
+    resetForm();
   }
 
   function openUploadOverlay() {
     uploadOverlay.classList.remove('hidden');
     document.body.classList.add('modal-open');
     document.addEventListener('keydown', uploadOverlayEscPressHandler);
+    if (!rightEdge) {
+      rightEdge = line.offsetWidth;
+    }
+    resetEffect();
   }
 
   var uploadPreview = uploadOverlay.querySelector('.img-upload__preview img');
@@ -133,18 +144,97 @@ window.form = (function () {
 
   var listEffects = uploadForm.querySelector('.effects__list');
   var defaulfEffect = uploadOverlay.querySelector('.effects__radio');
+  var currentEffect = EFFECTS.NONE;
 
   listEffects.addEventListener('click', function (evt) {
     var target = evt.target;
     if (target.classList.contains('effects__radio')) {
+      currentEffect = target.value;
       uploadPreview.classList = '';
-      uploadPreview.classList.add('effects__preview--' + target.value);
+      uploadPreview.classList.add('effects__preview--' + currentEffect);
+      if (currentEffect === EFFECTS.NONE) {
+        slider.classList.add('hidden');
+      } else if (slider.classList.contains('hidden')) {
+        slider.classList.remove('hidden');
+      }
+      changeEffect(rightEdge);
     }
   });
 
-  function resetEffect() {
+  function resetForm() {
+    uploadFile.value = '';
     uploadPreview.classList = '';
     defaulfEffect.checked = true;
     changeValueScale(MAX_VALUE_SCALE);
+  }
+
+  var slider = uploadOverlay.querySelector('.effect-level');
+  var sliderValue = uploadOverlay.querySelector('.effect-level__value');
+  var line = uploadOverlay.querySelector('.effect-level__line');
+  var pin = slider.querySelector('.effect-level__pin');
+  var depth = slider.querySelector('.effect-level__depth');
+  var rightEdge = 0;
+
+  pin.addEventListener('mousedown', function (evt) {
+    evt.preventDefault();
+    var shiftX = evt.clientX - pin.getBoundingClientRect().left;
+
+    var onMouseMove = function (moveEvt) {
+      moveEvt.preventDefault();
+      var newLeft = moveEvt.clientX - shiftX - line.getBoundingClientRect().left + pin.offsetWidth / 2;
+      if (newLeft < 0) {
+        newLeft = 0;
+      }
+      if (newLeft > rightEdge) {
+        newLeft = rightEdge;
+      }
+      changeEffect(newLeft);
+    };
+
+    var onMouseUp = function (upEvt) {
+      upEvt.preventDefault();
+
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+    };
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+  });
+
+  function changeEffect(position) {
+    var value = position / rightEdge;
+    var valuePercent = value * 100;
+
+    sliderValue.setAttribute('value', valuePercent);
+    pin.style.left = position + 'px';
+    depth.style.width = valuePercent + '%';
+
+    switch (currentEffect) {
+      case EFFECTS.CHROME:
+        uploadPreview.style.filter = 'grayscale(' + value + ')';
+        break;
+      case EFFECTS.SEPIA:
+        uploadPreview.style.filter = 'sepia(' + value + ')';
+        break;
+      case EFFECTS.MARVIN:
+        uploadPreview.style.filter = 'invert(' + valuePercent + '%)';
+        break;
+      case EFFECTS.PHOBOS:
+        uploadPreview.style.filter = 'blur(' + value * 3 + 'px)';
+        break;
+      case EFFECTS.HEAT:
+        uploadPreview.style.filter = 'brightness(' + (value * 2 + 1) + ')';
+        break;
+      case EFFECTS.NONE:
+        uploadPreview.style.filter = '';
+        break;
+    }
+  }
+
+  function resetEffect() {
+    slider.classList.add('hidden');
+    currentEffect = EFFECTS.NONE;
+    changeEffect(rightEdge);
   }
 })();
