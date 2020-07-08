@@ -179,7 +179,7 @@
     evt.preventDefault();
     var shiftX = evt.clientX - pin.getBoundingClientRect().left;
 
-    var onMouseMove = function (moveEvt) {
+    var mouseMoveHandler = function (moveEvt) {
       moveEvt.preventDefault();
       var newLeft = moveEvt.clientX - shiftX - line.getBoundingClientRect().left + pin.offsetWidth / 2;
       if (newLeft < 0) {
@@ -191,15 +191,15 @@
       changeEffect(newLeft);
     };
 
-    var onMouseUp = function (upEvt) {
+    var mouseUpHandler = function (upEvt) {
       upEvt.preventDefault();
 
-      document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseup', onMouseUp);
+      document.removeEventListener('mousemove', mouseMoveHandler);
+      document.removeEventListener('mouseup', mouseUpHandler);
     };
 
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
+    document.addEventListener('mousemove', mouseMoveHandler);
+    document.addEventListener('mouseup', mouseUpHandler);
   });
 
   function changeEffect(position) {

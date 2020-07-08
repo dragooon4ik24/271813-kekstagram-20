@@ -1,36 +1,35 @@
 'use strict';
 
 (function () {
-  var COUNT_PHOTOS = 25;
-  var photos = window.data.generatePhotos(COUNT_PHOTOS);
+  var realPhotos;
   var pictures = document.querySelector('.pictures');
   var templatePicture = document.querySelector('#picture').content.querySelector('.picture');
   var documentFragment = document.createDocumentFragment();
 
-  function fillPhotoTemplate(photoData) {
+  function fillPhotoTemplate(data) {
     var photo = templatePicture.cloneNode(true);
-    photo.querySelector('.picture__img').src = photoData.url;
-    photo.querySelector('.picture__likes').textContent = photoData.likes;
-    photo.querySelector('.picture__comments').textContent = photoData.comments.length;
+    photo.querySelector('.picture__img').src = data.url;
+    photo.querySelector('.picture__likes').textContent = data.likes;
+    photo.querySelector('.picture__comments').textContent = data.comments.length;
 
     return photo;
   }
 
-  function renderPhotos() {
+  function renderPhotos(photos) {
+    realPhotos = photos;
     photos.forEach(function (photo) {
       documentFragment.append(fillPhotoTemplate(photo));
     });
     pictures.append(documentFragment);
   }
-
-  renderPhotos();
+  window.load(renderPhotos);
 
   pictures.addEventListener('click', function (evt) {
     determinePhoto(evt);
   });
 
   pictures.addEventListener('keydown', function (evt) {
-    window.utils.isEscEvent(evt, function () {
+    window.utils.isEnterEvent(evt, function () {
       determinePhoto(evt);
     });
   });
@@ -41,9 +40,9 @@
       target = evt.target.firstElementChild;
     }
     if (target.classList.contains('picture__img')) {
-      for (var i = 0; i < photos.length; i++) {
-        if (target.getAttribute('src') === photos[i].url) {
-          window.preview.showPreview(photos[i]);
+      for (var i = 0; i < realPhotos.length; i++) {
+        if (target.getAttribute('src') === realPhotos[i].url) {
+          window.preview.showPreview(realPhotos[i]);
           break;
         }
       }
