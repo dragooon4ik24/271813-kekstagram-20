@@ -22,7 +22,7 @@
     });
     pictures.append(documentFragment);
   }
-  window.load(renderPhotos);
+  window.backend.load(renderPhotos);
 
   pictures.addEventListener('click', function (evt) {
     determinePhoto(evt);
