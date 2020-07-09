@@ -163,6 +163,8 @@
 
   function resetForm() {
     uploadFile.value = '';
+    textHashtags.value = '';
+    textDescription.value = '';
     uploadPreview.classList = '';
     defaulfEffect.checked = true;
     changeValueScale(MAX_VALUE_SCALE);
@@ -236,5 +238,20 @@
     slider.classList.add('hidden');
     currentEffect = EFFECTS.NONE;
     changeEffect(rightEdge);
+  }
+
+  uploadForm.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    window.backend.unload(new FormData(uploadForm), successHandler, errorHandler);
+  });
+
+  function successHandler() {
+    closeUploadOverlay();
+    window.message.showSuccess();
+  }
+
+  function errorHandler() {
+    closeUploadOverlay();
+    window.message.showError();
   }
 })();
