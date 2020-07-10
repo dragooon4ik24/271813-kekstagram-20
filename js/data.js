@@ -45,14 +45,14 @@ window.data = (function () {
     var data = {};
     data.url = 'photos/' + number + '.jpg';
     data.description = '';
-    data.likes = window.utils.randomInteger(MIN_COUNT_LIKES, MAX_COUNT_LIKES);
-    data.comments = createArrComments(window.utils.randomInteger(MIN_COUNT_COMMENTS, MAX_COUNT_COMMENTS));
+    data.likes = window.utils.getRandomNumber(MIN_COUNT_LIKES, MAX_COUNT_LIKES);
+    data.comments = createArrComments(window.utils.getRandomNumber(MIN_COUNT_COMMENTS, MAX_COUNT_COMMENTS));
     return data;
   }
 
   function createMessage() {
     var shuffledMessages = window.utils.shuffleArray(COMMENTS);
-    var countSentences = window.utils.randomInteger(MIN_COUNT_SENTENCES, MAX_COUNT_SENTENCES);
+    var countSentences = window.utils.getRandomNumber(MIN_COUNT_SENTENCES, MAX_COUNT_SENTENCES);
     var arrMessage = shuffledMessages.slice(0, countSentences);
     var message = arrMessage.length === 1 ? arrMessage[0] : arrMessage[0] + ' ' + arrMessage[1];
     return message;
@@ -60,9 +60,9 @@ window.data = (function () {
 
   function createComment() {
     var comment = {};
-    comment.avatar = 'img/avatar-' + window.utils.randomInteger(MIN_NUMBER_AVATAR, MAX_NUMBER_AVATAR) + '.svg';
+    comment.avatar = 'img/avatar-' + window.utils.getRandomNumber(MIN_NUMBER_AVATAR, MAX_NUMBER_AVATAR) + '.svg';
     comment.message = createMessage();
-    comment.name = NAMES[window.utils.randomInteger(0, NAMES.length - 1)];
+    comment.name = NAMES[window.utils.getRandomNumber(0, NAMES.length - 1)];
     return comment;
   }
 

@@ -2,9 +2,12 @@
 
 (function () {
   var realPhotos;
-  var pictures = document.querySelector('.pictures');
+  var picturesContainer = document.querySelector('.pictures');
+  var pictures = document.querySelectorAll('.picture');
   var templatePicture = document.querySelector('#picture').content.querySelector('.picture');
   var documentFragment = document.createDocumentFragment();
+
+  window.backend.load(successHandler);
 
   function fillPhotoTemplate(data) {
     var photo = templatePicture.cloneNode(true);
@@ -15,20 +18,29 @@
     return photo;
   }
 
-  function renderPhotos(photos) {
-    realPhotos = photos;
+  function successHandler(data) {
+    realPhotos = data;
+    updatePhotos(data);
+    window.filters(realPhotos, updatePhotos);
+  }
+
+  function updatePhotos(photos) {
+    Array.from(picturesContainer.children).forEach(function (picture) {
+      if (picture.classList.contains('picture')) {
+        picturesContainer.removeChild(picture);
+      }
+    });
     photos.forEach(function (photo) {
       documentFragment.append(fillPhotoTemplate(photo));
     });
-    pictures.append(documentFragment);
+    picturesContainer.append(documentFragment);
   }
-  window.backend.load(renderPhotos);
 
-  pictures.addEventListener('click', function (evt) {
+  picturesContainer.addEventListener('click', function (evt) {
     determinePhoto(evt);
   });
 
-  pictures.addEventListener('keydown', function (evt) {
+  picturesContainer.addEventListener('keydown', function (evt) {
     window.utils.isEnterEvent(evt, function () {
       determinePhoto(evt);
     });

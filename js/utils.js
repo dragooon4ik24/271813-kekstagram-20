@@ -4,7 +4,7 @@ window.utils = (function () {
   var KEY_NAME_ESC = 'Escape';
   var KEY_NAME_ENTER = 'Enter';
 
-  function randomInteger(min, max) {
+  function getRandomNumber(min, max) {
     var rand = min + Math.random() * (max + 1 - min);
     return Math.floor(rand);
   }
@@ -36,7 +36,7 @@ window.utils = (function () {
     }
   }
   return {
-    randomInteger: randomInteger,
+    getRandomNumber: getRandomNumber,
     shuffleArray: shuffleArray,
     isEscEvent: isEscEvent,
     isEnterEvent: isEnterEvent
