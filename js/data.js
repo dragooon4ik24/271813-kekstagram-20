@@ -33,7 +33,7 @@ window.data = (function () {
     for (var i = 0; i < count; i++) {
       arrIndexPhotos[i] = i + 1;
     }
-    var shuffledArrIndexPhotos = window.utils.shuffleArray(arrIndexPhotos);
+    var shuffledArrIndexPhotos = window.utils.getShuffledArray(arrIndexPhotos);
     photos = shuffledArrIndexPhotos.map(function (el) {
       return createDataPhoto(el);
     });
@@ -51,7 +51,7 @@ window.data = (function () {
   }
 
   function createMessage() {
-    var shuffledMessages = window.utils.shuffleArray(COMMENTS);
+    var shuffledMessages = window.utils.getShuffledArray(COMMENTS);
     var countSentences = window.utils.getRandomNumber(MIN_COUNT_SENTENCES, MAX_COUNT_SENTENCES);
     var arrMessage = shuffledMessages.slice(0, countSentences);
     var message = arrMessage.length === 1 ? arrMessage[0] : arrMessage[0] + ' ' + arrMessage[1];

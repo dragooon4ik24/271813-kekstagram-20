@@ -9,7 +9,7 @@ window.utils = (function () {
     return Math.floor(rand);
   }
 
-  function shuffleArray(array) {
+  function getShuffledArray(array) {
     var shuffledArray = array.slice();
     var length = shuffledArray.length;
     var randomIndex;
@@ -37,8 +37,8 @@ window.utils = (function () {
   }
   return {
     getRandomNumber: getRandomNumber,
-    shuffleArray: shuffleArray,
+    getShuffledArray: getShuffledArray,
     isEscEvent: isEscEvent,
-    isEnterEvent: isEnterEvent
+    isEnterEvent: isEnterEvent,
   };
 })();

@@ -1,26 +1,39 @@
 'use strict';
 
 window.filters = (function () {
-  var filters = document.querySelector('.img-filters');
-  var filterButtons = filters.querySelectorAll('.img-filters__button');
-  var defaultFilterButton = filters.querySelector('#filter-default');
-  var randomFilterButton = filters.querySelector('#filter-random');
-  var discussedFilterButton = filters.querySelector('#filter-discussed');
+  var COUNT_RANDOM_PHOTO = 10;
 
-  function renderFilters(photos, update) {
-    filters.classList.remove('img-filters--inactive');
+  var filtersBlock = document.querySelector('.img-filters');
+  var filterButtons = filtersBlock.querySelectorAll('.img-filters__button');
+  var defaultFilterButton = filtersBlock.querySelector('#filter-default');
+  var randomFilterButton = filtersBlock.querySelector('#filter-random');
+  var discussedFilterButton = filtersBlock.querySelector('#filter-discussed');
+
+  var filters = {
+    renderFilters: renderFilters,
+    onDefaultButtonFilter: function () {},
+    onRandomButtonFilter: function () {},
+    onDiscussedButtonFilter: function () {}
+  };
+
+  function renderFilters(photos) {
+    filtersBlock.classList.remove('img-filters--inactive');
 
     defaultFilterButton.addEventListener('click', function () {
       makeButtonActive(defaultFilterButton);
-      update(photos);
+      filters.onDefaultButtonFilter(photos);
     });
     randomFilterButton.addEventListener('click', function () {
       makeButtonActive(randomFilterButton);
-      update(photos.slice(0, 10));
+      var randomPhoto = window.utils.getShuffledArray(photos).slice(0, COUNT_RANDOM_PHOTO);
+      filters.onRandomButtonFilter(randomPhoto);
     });
     discussedFilterButton.addEventListener('click', function () {
       makeButtonActive(discussedFilterButton);
-      update(photos.slice(0, window.utils.getRandomNumber(5, 10)));
+      var sortedPhoto = photos.slice(0, photos.length).sort(function (photo, nextPhoto) {
+        return nextPhoto.comments.length - photo.comments.length;
+      });
+      filters.onDiscussedButtonFilter(sortedPhoto);
     });
   }
 
@@ -32,5 +45,6 @@ window.filters = (function () {
     });
     button.classList.add('img-filters__button--active');
   }
-  return renderFilters;
+
+  return filters;
 })();

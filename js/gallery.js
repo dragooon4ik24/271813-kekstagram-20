@@ -3,7 +3,6 @@
 (function () {
   var realPhotos;
   var picturesContainer = document.querySelector('.pictures');
-  var pictures = document.querySelectorAll('.picture');
   var templatePicture = document.querySelector('#picture').content.querySelector('.picture');
   var documentFragment = document.createDocumentFragment();
 
@@ -21,7 +20,7 @@
   function successHandler(data) {
     realPhotos = data;
     updatePhotos(data);
-    window.filters(realPhotos, updatePhotos);
+    window.filters.renderFilters(realPhotos);
   }
 
   function updatePhotos(photos) {
@@ -60,4 +59,14 @@
       }
     }
   }
+  window.filters.onRandomButtonFilter = window.debounce(function (photos) {
+    updatePhotos(photos);
+  });
+  window.filters.onDefaultButtonFilter = window.debounce(function (photos) {
+    updatePhotos(photos);
+  });
+  window.filters.onDiscussedButtonFilter = window.debounce(function (photos) {
+    updatePhotos(photos);
+  });
+
 })();
