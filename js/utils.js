@@ -4,12 +4,12 @@ window.utils = (function () {
   var KEY_NAME_ESC = 'Escape';
   var KEY_NAME_ENTER = 'Enter';
 
-  function randomInteger(min, max) {
+  function getRandomNumber(min, max) {
     var rand = min + Math.random() * (max + 1 - min);
     return Math.floor(rand);
   }
 
-  function shuffleArray(array) {
+  function getShuffledArray(array) {
     var shuffledArray = array.slice();
     var length = shuffledArray.length;
     var randomIndex;
@@ -36,9 +36,9 @@ window.utils = (function () {
     }
   }
   return {
-    randomInteger: randomInteger,
-    shuffleArray: shuffleArray,
+    getRandomNumber: getRandomNumber,
+    getShuffledArray: getShuffledArray,
     isEscEvent: isEscEvent,
-    isEnterEvent: isEnterEvent
+    isEnterEvent: isEnterEvent,
   };
 })();
