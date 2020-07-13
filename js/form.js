@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var EFFECTS = {
+  var Effects = {
     NONE: 'none',
     CHROME: 'chrome',
     SEPIA: 'sepia',
@@ -144,7 +144,7 @@
 
   var listEffects = uploadForm.querySelector('.effects__list');
   var defaulfEffect = uploadOverlay.querySelector('.effects__radio');
-  var currentEffect = EFFECTS.NONE;
+  var currentEffect = Effects.NONE;
 
   listEffects.addEventListener('click', function (evt) {
     var target = evt.target;
@@ -152,7 +152,7 @@
       currentEffect = target.value;
       uploadPreview.classList = '';
       uploadPreview.classList.add('effects__preview--' + currentEffect);
-      if (currentEffect === EFFECTS.NONE) {
+      if (currentEffect === Effects.NONE) {
         slider.classList.add('hidden');
       } else if (slider.classList.contains('hidden')) {
         slider.classList.remove('hidden');
@@ -213,22 +213,22 @@
     depth.style.width = valuePercent + '%';
 
     switch (currentEffect) {
-      case EFFECTS.CHROME:
+      case Effects.CHROME:
         uploadPreview.style.filter = 'grayscale(' + value + ')';
         break;
-      case EFFECTS.SEPIA:
+      case Effects.SEPIA:
         uploadPreview.style.filter = 'sepia(' + value + ')';
         break;
-      case EFFECTS.MARVIN:
+      case Effects.MARVIN:
         uploadPreview.style.filter = 'invert(' + valuePercent + '%)';
         break;
-      case EFFECTS.PHOBOS:
+      case Effects.PHOBOS:
         uploadPreview.style.filter = 'blur(' + value * 3 + 'px)';
         break;
-      case EFFECTS.HEAT:
+      case Effects.HEAT:
         uploadPreview.style.filter = 'brightness(' + (value * 2 + 1) + ')';
         break;
-      case EFFECTS.NONE:
+      case Effects.NONE:
         uploadPreview.style.filter = '';
         break;
     }
@@ -236,7 +236,7 @@
 
   function resetEffect() {
     slider.classList.add('hidden');
-    currentEffect = EFFECTS.NONE;
+    currentEffect = Effects.NONE;
     changeEffect(rightEdge);
   }
 
