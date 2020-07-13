@@ -11,9 +11,9 @@ window.filters = (function () {
 
   var filters = {
     renderFilters: renderFilters,
-    onDefaultButtonFilter: function () {},
-    onRandomButtonFilter: function () {},
-    onDiscussedButtonFilter: function () {}
+    defaultButtonClickHandler: function () {},
+    randomButtonClickHandler: function () {},
+    discussedButtonClickHandler: function () {}
   };
 
   function renderFilters(photos) {
@@ -21,19 +21,19 @@ window.filters = (function () {
 
     defaultFilterButton.addEventListener('click', function () {
       makeButtonActive(defaultFilterButton);
-      filters.onDefaultButtonFilter(photos);
+      filters.defaultButtonClickHandler(photos);
     });
     randomFilterButton.addEventListener('click', function () {
       makeButtonActive(randomFilterButton);
       var randomPhoto = window.utils.getShuffledArray(photos).slice(0, COUNT_RANDOM_PHOTO);
-      filters.onRandomButtonFilter(randomPhoto);
+      filters.randomButtonClickHandler(randomPhoto);
     });
     discussedFilterButton.addEventListener('click', function () {
       makeButtonActive(discussedFilterButton);
       var sortedPhoto = photos.slice(0, photos.length).sort(function (photo, nextPhoto) {
         return nextPhoto.comments.length - photo.comments.length;
       });
-      filters.onDiscussedButtonFilter(sortedPhoto);
+      filters.discussedButtonClickHandler(sortedPhoto);
     });
   }
 

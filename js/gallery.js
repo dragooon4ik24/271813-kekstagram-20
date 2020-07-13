@@ -59,13 +59,13 @@
       }
     }
   }
-  window.filters.onRandomButtonFilter = window.debounce(function (photos) {
+  window.filters.randomButtonClickHandler = window.debounce(function (photos) {
     updatePhotos(photos);
   });
-  window.filters.onDefaultButtonFilter = window.debounce(function (photos) {
+  window.filters.defaultButtonClickHandler = window.debounce(function (photos) {
     updatePhotos(photos);
   });
-  window.filters.onDiscussedButtonFilter = window.debounce(function (photos) {
+  window.filters.discussedButtonClickHandler = window.debounce(function (photos) {
     updatePhotos(photos);
   });
 
