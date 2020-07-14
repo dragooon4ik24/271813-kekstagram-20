@@ -54,8 +54,7 @@ window.data = (function () {
     var shuffledMessages = window.utils.getShuffledArray(COMMENTS);
     var countSentences = window.utils.getRandomNumber(MIN_COUNT_SENTENCES, MAX_COUNT_SENTENCES);
     var arrMessage = shuffledMessages.slice(0, countSentences);
-    var message = arrMessage.length === 1 ? arrMessage[0] : arrMessage[0] + ' ' + arrMessage[1];
-    return message;
+    return arrMessage.length === 1 ? arrMessage[0] : arrMessage[0] + ' ' + arrMessage[1];
   }
 
   function createComment() {
